@@ -1,0 +1,40 @@
+{
+  "overrides": [
+    {
+      "files": "*.sol",
+      "options": {
+        "printWidth": 100,
+        "tabWidth": 4,
+        "useTabs": false,
+        "singleQuote": false,
+        "bracketSpacing": false,
+        "endOfLine": "auto",
+        "parser": "solidity-parse"
+      }
+    },
+    {
+      "files": "*.yml",
+      "options": {}
+    },
+    {
+      "files": "*.yaml",
+      "options": {}
+    },
+    {
+      "files": "*.toml",
+      "options": {}
+    },
+    {
+      "files": "*.json",
+      "options": {}
+    },
+    {
+      "files": "*.js",
+      "options": {}
+    },
+    {
+      "files": "*.ts",
+      "options": {}
+    }
+  ]
+}

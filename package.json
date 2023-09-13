@@ -1,0 +1,20 @@
+{
+  "name": "web3-smart-contract",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "remixd",
+    "check-format": "prettier --check .",
+    "format": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@remix-project/remixd": "^0.6.17",
+    "husky": "^8.0.0",
+    "prettier": "2.8.4",
+    "prettier-plugin-solidity": "^1.1.3"
+  }
+}
