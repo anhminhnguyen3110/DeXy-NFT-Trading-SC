@@ -22,17 +22,47 @@ contract Purchasing {
         return transactionId++;
     }
 
-    function buy(address owner, uint32 product, uint256 price) public payable {
-        require(msg.value == price, "Insufficient funds");
-
+    function handleTransaction(
+        address owner,
+        address buyer,
+        uint32 product,
+        uint256 price
+    ) internal {
         address payable owner_payable = payable(owner);
-        owner_payable.transfer(msg.value);
+        owner_payable.transfer(price);
 
         uint32 _transactionId = getTransactionId();
 
-        transactions[_transactionId] = TransactionDetails(msg.sender, owner, product, price);
+        transactions[_transactionId] = TransactionDetails(buyer, owner, product, price);
 
-        emit TransactionAccepted(_transactionId, msg.sender, owner);
+        emit TransactionAccepted(_transactionId, buyer, owner);
+    }
+
+    function buy(address owner, uint32 product, uint256 price) public payable {
+        require(msg.value == price, "Insufficient funds");
+
+        handleTransaction(owner, msg.sender, product, price);
+    }
+
+    function batchBuy(
+        address[] memory owners,
+        uint32[] memory products,
+        uint256[] memory prices
+    ) public payable {
+        require(
+            owners.length == products.length && owners.length == prices.length,
+            "Invalid input"
+        );
+
+        uint256 total = 0;
+        for (uint i = 0; i < prices.length; i++) {
+            total += prices[i];
+        }
+        require(msg.value == total, "Insufficient funds");
+
+        for (uint i = 0; i < owners.length; i++) {
+            handleTransaction(owners[i], msg.sender, products[i], prices[i]);
+        }
     }
 
     function getTransactions(
