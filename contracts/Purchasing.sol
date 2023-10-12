@@ -10,6 +10,7 @@ contract Purchasing {
         address to;
         uint32 product;
         uint256 price;
+        uint256 timestamp;
     }
     mapping(uint32 => TransactionDetails) public transactions;
     uint32 private transactionId;
@@ -33,7 +34,13 @@ contract Purchasing {
 
         uint32 _transactionId = getTransactionId();
 
-        transactions[_transactionId] = TransactionDetails(buyer, owner, product, price);
+        transactions[_transactionId] = TransactionDetails(
+            buyer,
+            owner,
+            product,
+            price,
+            block.timestamp
+        );
 
         emit TransactionAccepted(_transactionId, buyer, owner);
     }
