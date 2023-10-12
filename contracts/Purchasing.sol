@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 pragma abicoder v2;
 
 contract Purchasing {
-    event TransactionAccepted(uint32 transactionId, address buyer, address owner);
+    event TransactionAccepted(uint32 transactionId, uint32 item, address buyer, address owner);
     struct TransactionDetails {
         address from;
         address to;
@@ -12,7 +12,7 @@ contract Purchasing {
         uint256 price;
         uint256 timestamp;
     }
-    mapping(uint32 => TransactionDetails) public transactions;
+    mapping(uint32 => TransactionDetails) private transactions;
     uint32 private transactionId;
 
     constructor() {
@@ -42,7 +42,7 @@ contract Purchasing {
             block.timestamp
         );
 
-        emit TransactionAccepted(_transactionId, buyer, owner);
+        emit TransactionAccepted(_transactionId, product, buyer, owner);
     }
 
     function buy(address owner, uint32 product, uint256 price) public payable {
@@ -75,9 +75,16 @@ contract Purchasing {
     function getTransactions(
         uint32[] memory transactionsIds
     ) public view returns (TransactionDetails[] memory transactionList) {
-        transactionList = new TransactionDetails[](transactionsIds.length);
+        uint32 size = 0;
         for (uint i = 0; i < transactionsIds.length; i++) {
-            transactionList[i] = transactions[transactionsIds[i]];
+            if (transactions[transactionsIds[i]].from != address(0)) size++;
+        }
+
+        transactionList = new TransactionDetails[](size);
+        uint32 cur_idx = 0;
+        for (uint i = 0; i < transactionsIds.length; i++) {
+            if (transactions[transactionsIds[i]].from != address(0))
+                transactionList[cur_idx++] = transactions[transactionsIds[i]];
         }
         return transactionList;
     }
