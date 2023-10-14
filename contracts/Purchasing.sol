@@ -45,17 +45,17 @@ contract Purchasing {
         emit TransactionAccepted(_transactionId, product, buyer, owner);
     }
 
-    function buy(address owner, uint32 product, uint256 price) public payable {
+    function buy(address owner, uint32 product, uint256 price) external payable {
         require(msg.value == price, "Insufficient funds");
 
         handleTransaction(owner, msg.sender, product, price);
     }
 
     function batchBuy(
-        address[] memory owners,
-        uint32[] memory products,
-        uint256[] memory prices
-    ) public payable {
+        address[] calldata owners,
+        uint32[] calldata products,
+        uint256[] calldata prices
+    ) external payable {
         require(
             owners.length == products.length && owners.length == prices.length,
             "Invalid input"
@@ -74,7 +74,7 @@ contract Purchasing {
 
     function getTransactions(
         uint32[] memory transactionsIds
-    ) public view returns (TransactionDetails[] memory transactionList) {
+    ) external view returns (TransactionDetails[] memory transactionList) {
         uint32 size = 0;
         for (uint i = 0; i < transactionsIds.length; i++) {
             if (transactions[transactionsIds[i]].from != address(0)) size++;
