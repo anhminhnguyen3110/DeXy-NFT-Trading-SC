@@ -79,6 +79,7 @@ contract Purchasing {
         for (uint i = 0; i < transactionsIds.length; i++) {
             if (transactions[transactionsIds[i]].from != address(0)) size++;
         }
+        if (size == 0) return new TransactionDetails[](1);
 
         transactionList = new TransactionDetails[](size);
         uint32 cur_idx = 0;
