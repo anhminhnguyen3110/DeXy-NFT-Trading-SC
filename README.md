@@ -1,8 +1,10 @@
-# COS30049-SC
+# DeXy Platform - NFT Trading Smart Contract
 
-Solidity smart contract code base for the unit COS30049 - Computing Technology Innovation project at Swinburne University of Technology.
+## Overview
 
-# Setup
+Welcome to the DeXy platform smart contract repository! DeXy is a platform designed for trading Non-Fungible Tokens (NFTs).
+
+## Setup
 
 ```bash
 yarn install
